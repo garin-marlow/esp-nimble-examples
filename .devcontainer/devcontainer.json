@@ -16,5 +16,19 @@
 		"ms-vscode.cmake-tools",
 		"ms-vscode.cpptools"
 	],
+
+	// Add arguments passed to 'docker run'
+	"runArgs": [
+		"--device=/dev/ttyUSB0:/dev/ttyUSB0" // Pass the device from host to container
+		// You might need --group-add <gid> if not running as root and permissions fail.
+		// Find host GID with: getent group dialout | cut -d: -f3  OR  ls -l /dev/ttyUSB0
+		// Example: "--group-add=20" if the GID is 20
+	],
+
+	// OPTIONAL BUT OFTEN NEEDED FOR DEVICE ACCESS: Run as root inside the container
+	// Or ensure the default 'vscode' user is added to the 'dialout' group (or equivalent GID)
+	// inside the container during Dockerfile build or using initializeCommand/postCreateCommand.
+	"remoteUser": "root",
+
 	"userEnvProbe": "loginInteractiveShell"
 }
